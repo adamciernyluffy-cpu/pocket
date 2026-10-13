@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "aether",
+  "version": "${version}",
+  "name": "Aether Cosmic Client",
+  "description": "A cosmic, client-side 3D-inspired module interface for Minecraft.",
+  "authors": ["Aether Team"],
+  "environment": "client",
+  "entrypoints": { "client": ["com.aether.client.AetherClient"] },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
