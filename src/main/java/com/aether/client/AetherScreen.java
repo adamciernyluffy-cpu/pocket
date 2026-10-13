@@ -1,6 +1,8 @@
 package com.aether.client;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -106,7 +108,10 @@ public final class AetherScreen extends Screen {
         super.render(ctx, mouseX, mouseY, delta);
     }
 
-    @Override public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    @Override public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         int panelW = Math.min(470, width - 30), panelH = Math.min(360, height - 30);
         int x = Math.min(panelX, width - panelW - 10), y = Math.min(panelY, height - panelH - 10);
         if (selected != null) {
@@ -139,19 +144,24 @@ public final class AetherScreen extends Screen {
             }
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
-    @Override public boolean mouseReleased(double mouseX, double mouseY, int button) { dragging = false; return super.mouseReleased(mouseX, mouseY, button); }
-    @Override public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+    @Override public boolean mouseReleased(Click click) {
+        dragging = false;
+        return super.mouseReleased(click);
+    }
+    @Override public boolean mouseDragged(Click click, double deltaX, double deltaY) {
+        double mouseX = click.x();
+        double mouseY = click.y();
         if (dragging) { panelX = (int)mouseX - dragX; panelY = (int)mouseY - dragY; return true; }
         cameraX += deltaX * .004; cameraY += deltaY * .004; return true;
     }
     @Override public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) { scroll = Math.max(0, Math.min( Math.max(0, ModuleRegistry.MODULES.size() - 10), scroll - (int)Math.signum(verticalAmount) * 2)); return true; }
     @Override public boolean shouldPause() { return false; }
-    @Override public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { if (selected != null) selected = null; else close(); return true; }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+    @Override public boolean keyPressed(KeyInput input) {
+        if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE) { if (selected != null) selected = null; else close(); return true; }
+        return super.keyPressed(input);
     }
 
     private record Star(double x, double y, double depth, double phase) {}
