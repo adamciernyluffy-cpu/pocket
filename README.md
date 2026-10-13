@@ -16,3 +16,8 @@ Requires JDK 21. Run `gradle build` or use the included Gradle wrapper if you ad
 - The module registry has 110+ unique entries across distinct categories. Many entries are UI prototypes/placeholders and do not claim to implement gameplay functionality yet.
 - The UI's state is currently in memory; persistent profile saving and a full 3D world renderer are future implementation steps.
 - The project has not been compiled in this environment. The GitHub Actions workflow is included to test it in a real build environment; fix any mapping/API compatibility errors reported by the build.
+
+
+### Gradle repository configuration
+
+The settings use `RepositoriesMode.PREFER_PROJECT` so Fabric Loom can register its required project repositories during configuration.
